@@ -577,10 +577,12 @@ PJ_DEF(pj_status_t) pj_thread_create( pj_pool_t *pool,
     if (!thread_name)
 	thread_name = "thr%p";
 
+    strncpy(rec->obj_name, "pj_", PJ_MAX_OBJ_NAME);
+
     if (strchr(thread_name, '%')) {
-	pj_ansi_snprintf(rec->obj_name, PJ_MAX_OBJ_NAME, thread_name, rec);
+	pj_ansi_snprintf(rec->obj_name+3, PJ_MAX_OBJ_NAME-3, thread_name, rec);
     } else {
-	strncpy(rec->obj_name, thread_name, PJ_MAX_OBJ_NAME);
+	strncpy(rec->obj_name+3, thread_name, PJ_MAX_OBJ_NAME-3);
 	rec->obj_name[PJ_MAX_OBJ_NAME-1] = '\0';
     }
 
@@ -632,6 +634,11 @@ PJ_DEF(pj_status_t) pj_thread_create( pj_pool_t *pool,
     rec->proc = proc;
     rec->arg = arg;
     rc = pthread_create( &rec->thread, &thread_attr, &thread_main, rec);
+    if (rc != 0) {
+	return PJ_RETURN_OS_ERROR(rc);
+    }
+
+    rc = pthread_setname_np(rec->thread, rec->obj_name);
     if (rc != 0) {
 	return PJ_RETURN_OS_ERROR(rc);
     }
