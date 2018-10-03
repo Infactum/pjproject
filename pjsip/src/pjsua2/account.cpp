@@ -1029,7 +1029,6 @@ const BuddyVector& Account::enumBuddies() const
 }
 
 Buddy* Account::findBuddy(string uri, FindBuddyMatch *buddy_match) const
-		throw(Error)
 {
     if (!buddy_match) {
 	static FindBuddyMatch def_bm;
