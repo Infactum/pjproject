@@ -36,7 +36,7 @@ PresenceStatus::PresenceStatus()
 
 ///////////////////////////////////////////////////////////////////////////////
 
-void BuddyConfig::readObject(const ContainerNode &node) throw(Error)
+void BuddyConfig::readObject(const ContainerNode &node) 
 {
     ContainerNode this_node = node.readContainer("BuddyConfig");
 
@@ -44,7 +44,7 @@ void BuddyConfig::readObject(const ContainerNode &node) throw(Error)
     NODE_READ_BOOL     ( this_node, subscribe);
 }
 
-void BuddyConfig::writeObject(ContainerNode &node) const throw(Error)
+void BuddyConfig::writeObject(ContainerNode &node) const 
 {
     ContainerNode this_node = node.writeNewContainer("BuddyConfig");
 
@@ -99,7 +99,7 @@ Buddy::~Buddy()
 /*
  * Create buddy and register the buddy to PJSUA-LIB.
  */
-void Buddy::create(Account &account, const BuddyConfig &cfg) throw(Error)
+void Buddy::create(Account &account, const BuddyConfig &cfg) 
 {
     pjsua_buddy_config pj_cfg;
     pjsua_buddy_config_default(&pj_cfg);
@@ -127,7 +127,7 @@ bool Buddy::isValid() const
 /*
  * Get detailed buddy info.
  */
-BuddyInfo Buddy::getInfo() const throw(Error)
+BuddyInfo Buddy::getInfo() const 
 {
     pjsua_buddy_info pj_bi;
     BuddyInfo bi;
@@ -140,7 +140,7 @@ BuddyInfo Buddy::getInfo() const throw(Error)
 /*
  * Enable/disable buddy's presence monitoring.
  */
-void Buddy::subscribePresence(bool subscribe) throw(Error)
+void Buddy::subscribePresence(bool subscribe) 
 {
     PJSUA2_CHECK_EXPR( pjsua_buddy_subscribe_pres(id, subscribe) );
 }
@@ -149,7 +149,7 @@ void Buddy::subscribePresence(bool subscribe) throw(Error)
 /*
  * Update the presence information for the buddy.
  */
-void Buddy::updatePresence(void) throw(Error)
+void Buddy::updatePresence(void) 
 {
     PJSUA2_CHECK_EXPR( pjsua_buddy_update_pres(id) );
 }
@@ -157,7 +157,7 @@ void Buddy::updatePresence(void) throw(Error)
 /*
  * Send instant messaging outside dialog.
  */
-void Buddy::sendInstantMessage(const SendInstantMessageParam &prm) throw(Error)
+void Buddy::sendInstantMessage(const SendInstantMessageParam &prm) 
 {
     BuddyInfo bi = getInfo();
 
@@ -176,7 +176,7 @@ void Buddy::sendInstantMessage(const SendInstantMessageParam &prm) throw(Error)
  * Send typing indication outside dialog.
  */
 void Buddy::sendTypingIndication(const SendTypingIndicationParam &prm)
-     throw(Error)
+     
 {
     BuddyInfo bi = getInfo();
 

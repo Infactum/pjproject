@@ -223,7 +223,7 @@ pjsua_config UaConfig::toPj() const
     return pua_cfg;
 }
 
-void UaConfig::readObject(const ContainerNode &node) throw(Error)
+void UaConfig::readObject(const ContainerNode &node)
 {
     ContainerNode this_node = node.readContainer("UaConfig");
 
@@ -239,7 +239,7 @@ void UaConfig::readObject(const ContainerNode &node) throw(Error)
     NODE_READ_BOOL    ( this_node, mwiUnsolicitedEnabled);
 }
 
-void UaConfig::writeObject(ContainerNode &node) const throw(Error)
+void UaConfig::writeObject(ContainerNode &node) const
 {
     ContainerNode this_node = node.writeNewContainer("UaConfig");
 
@@ -292,7 +292,7 @@ pjsua_logging_config LogConfig::toPj() const
     return lc;
 }
 
-void LogConfig::readObject(const ContainerNode &node) throw(Error)
+void LogConfig::readObject(const ContainerNode &node)
 {
     ContainerNode this_node = node.readContainer("LogConfig");
 
@@ -304,7 +304,7 @@ void LogConfig::readObject(const ContainerNode &node) throw(Error)
     NODE_READ_UNSIGNED( this_node, fileFlags);
 }
 
-void LogConfig::writeObject(ContainerNode &node) const throw(Error)
+void LogConfig::writeObject(ContainerNode &node) const
 {
     ContainerNode this_node = node.writeNewContainer("LogConfig");
 
@@ -386,7 +386,7 @@ pjsua_media_config MediaConfig::toPj() const
     return mcfg;
 }
 
-void MediaConfig::readObject(const ContainerNode &node) throw(Error)
+void MediaConfig::readObject(const ContainerNode &node)
 {
     ContainerNode this_node = node.readContainer("MediaConfig");
 
@@ -415,7 +415,7 @@ void MediaConfig::readObject(const ContainerNode &node) throw(Error)
     NODE_READ_BOOL    ( this_node, vidPreviewEnableNative);
 }
 
-void MediaConfig::writeObject(ContainerNode &node) const throw(Error)
+void MediaConfig::writeObject(ContainerNode &node) const
 {
     ContainerNode this_node = node.writeNewContainer("MediaConfig");
 
@@ -446,7 +446,7 @@ void MediaConfig::writeObject(ContainerNode &node) const throw(Error)
 
 ///////////////////////////////////////////////////////////////////////////////
 
-void EpConfig::readObject(const ContainerNode &node) throw(Error)
+void EpConfig::readObject(const ContainerNode &node)
 {
     ContainerNode this_node = node.readContainer("EpConfig");
     NODE_READ_OBJ( this_node, uaConfig);
@@ -454,7 +454,7 @@ void EpConfig::readObject(const ContainerNode &node) throw(Error)
     NODE_READ_OBJ( this_node, medConfig);
 }
 
-void EpConfig::writeObject(ContainerNode &node) const throw(Error)
+void EpConfig::writeObject(ContainerNode &node) const
 {
     ContainerNode this_node = node.writeNewContainer("EpConfig");
     NODE_WRITE_OBJ( this_node, uaConfig);
@@ -488,7 +488,7 @@ Endpoint::Endpoint()
     instance_ = this;
 }
 
-Endpoint& Endpoint::instance() throw(Error)
+Endpoint& Endpoint::instance()
 {
     if (!instance_) {
 	PJSUA2_RAISE_ERROR(PJ_ENOTFOUND);
@@ -1569,7 +1569,7 @@ Version Endpoint::libVersion() const
     return ver;
 }
 
-void Endpoint::libCreate() throw(Error)
+void Endpoint::libCreate()
 {
     PJSUA2_CHECK_EXPR( pjsua_create() );
     mainThread = pj_thread_this();
@@ -1583,7 +1583,7 @@ pjsua_state Endpoint::libGetState() const
     return pjsua_get_state();
 }
 
-void Endpoint::libInit(const EpConfig &prmEpConfig) throw(Error)
+void Endpoint::libInit(const EpConfig &prmEpConfig)
 {
     pjsua_config ua_cfg;
     pjsua_logging_config log_cfg;
@@ -1663,12 +1663,12 @@ void Endpoint::libInit(const EpConfig &prmEpConfig) throw(Error)
     }
 }
 
-void Endpoint::libStart() throw(Error)
+void Endpoint::libStart()
 {
     PJSUA2_CHECK_EXPR(pjsua_start());
 }
 
-void Endpoint::libRegisterThread(const string &name) throw(Error)
+void Endpoint::libRegisterThread(const string &name)
 {
     pj_thread_t *thread;
     pj_thread_desc *desc;
@@ -1711,7 +1711,7 @@ int Endpoint::libHandleEvents(unsigned msec_timeout)
     return pjsua_handle_events(msec_timeout);
 }
 
-void Endpoint::libDestroy(unsigned flags) throw(Error)
+void Endpoint::libDestroy(unsigned flags)
 {
     pj_status_t status;
 
@@ -1778,7 +1778,7 @@ pj_status_t Endpoint::utilVerifyUri(const string &prmUri)
 }
 
 Token Endpoint::utilTimerSchedule(unsigned prmMsecDelay,
-                                  Token prmUserData) throw (Error)
+                                  Token prmUserData)
 {
     UserTimer *ut;
     pj_time_val delay;
@@ -1820,7 +1820,7 @@ void Endpoint::utilTimerCancel(Token prmTimerToken)
     delete ut;
 }
 
-IntVector Endpoint::utilSslGetAvailableCiphers() throw (Error)
+IntVector Endpoint::utilSslGetAvailableCiphers()
 {
 #if PJ_HAS_SSL_SOCK
     pj_ssl_cipher ciphers[PJ_SSL_SOCK_MAX_CIPHERS];
@@ -1838,12 +1838,12 @@ IntVector Endpoint::utilSslGetAvailableCiphers() throw (Error)
 /*
  * Endpoint NAT operations
  */
-void Endpoint::natDetectType(void) throw(Error)
+void Endpoint::natDetectType(void)
 {
     PJSUA2_CHECK_EXPR( pjsua_detect_nat_type() );
 }
 
-pj_stun_nat_type Endpoint::natGetType() throw(Error)
+pj_stun_nat_type Endpoint::natGetType()
 {
     pj_stun_nat_type type;
 
@@ -1853,7 +1853,7 @@ pj_stun_nat_type Endpoint::natGetType() throw(Error)
 }
 
 void Endpoint::natUpdateStunServers(const StringVector &servers,
-				    bool wait) throw(Error)
+				    bool wait)
 {
     pj_str_t srv[MAX_STUN_SERVERS];
     unsigned i, count = 0;
@@ -1869,7 +1869,7 @@ void Endpoint::natUpdateStunServers(const StringVector &servers,
 
 void Endpoint::natCheckStunServers(const StringVector &servers,
 				   bool wait,
-				   Token token) throw(Error)
+				   Token token)
 {
     pj_str_t srv[MAX_STUN_SERVERS];
     unsigned i, count = 0;
@@ -1885,7 +1885,7 @@ void Endpoint::natCheckStunServers(const StringVector &servers,
 }
 
 void Endpoint::natCancelCheckStunServers(Token token,
-                                         bool notify_cb) throw(Error)
+                                         bool notify_cb)
 {
     PJSUA2_CHECK_EXPR( pjsua_cancel_stun_resolution(token, notify_cb) );
 }
@@ -1895,7 +1895,7 @@ void Endpoint::natCancelCheckStunServers(Token token,
  * Transport API
  */
 TransportId Endpoint::transportCreate(pjsip_transport_type_e type,
-                                      const TransportConfig &cfg) throw(Error)
+                                      const TransportConfig &cfg)
 {
     pjsua_transport_config tcfg;
     pjsua_transport_id tid;
@@ -1907,7 +1907,7 @@ TransportId Endpoint::transportCreate(pjsip_transport_type_e type,
     return tid;
 }
 
-IntVector Endpoint::transportEnum() throw(Error)
+IntVector Endpoint::transportEnum()
 {
     pjsua_transport_id tids[32];
     unsigned count = PJ_ARRAY_SIZE(tids);
@@ -1917,7 +1917,7 @@ IntVector Endpoint::transportEnum() throw(Error)
     return IntVector(tids, tids+count);
 }
 
-TransportInfo Endpoint::transportGetInfo(TransportId id) throw(Error)
+TransportInfo Endpoint::transportGetInfo(TransportId id)
 {
     pjsua_transport_info pj_tinfo;
     TransportInfo tinfo;
@@ -1928,17 +1928,17 @@ TransportInfo Endpoint::transportGetInfo(TransportId id) throw(Error)
     return tinfo;
 }
 
-void Endpoint::transportSetEnable(TransportId id, bool enabled) throw(Error)
+void Endpoint::transportSetEnable(TransportId id, bool enabled)
 {
     PJSUA2_CHECK_EXPR( pjsua_transport_set_enable(id, enabled) );
 }
 
-void Endpoint::transportClose(TransportId id) throw(Error)
+void Endpoint::transportClose(TransportId id)
 {
     PJSUA2_CHECK_EXPR( pjsua_transport_close(id, PJ_FALSE) );
 }
 
-void Endpoint::transportShutdown(TransportHandle tp) throw(Error)
+void Endpoint::transportShutdown(TransportHandle tp)
 {
     PJSUA2_CHECK_EXPR( pjsip_transport_shutdown((pjsip_transport *)tp) );
 }
@@ -1967,7 +1967,7 @@ unsigned Endpoint::mediaActivePorts() const
     return pjsua_conf_get_active_ports();
 }
 
-const AudioMediaVector &Endpoint::mediaEnumPorts() const throw(Error)
+const AudioMediaVector &Endpoint::mediaEnumPorts() const
 {
     return mediaList;
 }
@@ -2013,7 +2013,7 @@ VidDevManager &Endpoint::vidDevManager()
 /*
  * Codec operations.
  */
-const CodecInfoVector &Endpoint::codecEnum() throw(Error)
+const CodecInfoVector &Endpoint::codecEnum()
 {
     pjsua_codec_info pj_codec[MAX_CODEC_NUM];
     unsigned count = MAX_CODEC_NUM;
@@ -2025,13 +2025,13 @@ const CodecInfoVector &Endpoint::codecEnum() throw(Error)
 }
 
 void Endpoint::codecSetPriority(const string &codec_id,
-			        pj_uint8_t priority) throw(Error)
+			        pj_uint8_t priority)
 {
     pj_str_t codec_str = str2Pj(codec_id);
     PJSUA2_CHECK_EXPR( pjsua_codec_set_priority(&codec_str, priority) );
 }
 
-CodecParam Endpoint::codecGetParam(const string &codec_id) const throw(Error)
+CodecParam Endpoint::codecGetParam(const string &codec_id) const
 {
     CodecParam param;
     pjmedia_codec_param pj_param;
@@ -2044,7 +2044,7 @@ CodecParam Endpoint::codecGetParam(const string &codec_id) const throw(Error)
 }
 
 void Endpoint::codecSetParam(const string &codec_id,
-			     const CodecParam param) throw(Error)
+			     const CodecParam param)
 {
     pj_str_t codec_str = str2Pj(codec_id);
     pjmedia_codec_param pj_param = param.toPj();
@@ -2074,7 +2074,7 @@ void Endpoint::updateCodecInfoList(pjsua_codec_info pj_codec[], unsigned count,
     pj_leave_critical_section();
 }
 
-const CodecInfoVector &Endpoint::videoCodecEnum() throw(Error)
+const CodecInfoVector &Endpoint::videoCodecEnum()
 {
 #if PJSUA_HAS_VIDEO
     pjsua_codec_info pj_codec[MAX_CODEC_NUM];
@@ -2088,7 +2088,7 @@ const CodecInfoVector &Endpoint::videoCodecEnum() throw(Error)
 }
 
 void Endpoint::videoCodecSetPriority(const string &codec_id,
-				     pj_uint8_t priority) throw(Error)
+				     pj_uint8_t priority)
 {
 #if PJSUA_HAS_VIDEO
     pj_str_t codec_str = str2Pj(codec_id);
@@ -2100,7 +2100,7 @@ void Endpoint::videoCodecSetPriority(const string &codec_id,
 }
 
 VidCodecParam Endpoint::getVideoCodecParam(const string &codec_id) const 
-								   throw(Error)
+								  
 {    
     VidCodecParam codec_param;
 #if PJSUA_HAS_VIDEO
@@ -2116,7 +2116,7 @@ VidCodecParam Endpoint::getVideoCodecParam(const string &codec_id) const
 }
 
 void Endpoint::setVideoCodecParam(const string &codec_id,
-				  const VidCodecParam &param) throw(Error)
+				  const VidCodecParam &param)
 {
 #if PJSUA_HAS_VIDEO
     pj_str_t codec_str = str2Pj(codec_id);
@@ -2129,7 +2129,7 @@ void Endpoint::setVideoCodecParam(const string &codec_id,
 #endif
 }
 
-void Endpoint::resetVideoCodecParam(const string &codec_id) throw(Error)
+void Endpoint::resetVideoCodecParam(const string &codec_id)
 {
 #if PJSUA_HAS_VIDEO
     pj_str_t codec_str = str2Pj(codec_id);    
@@ -2143,7 +2143,7 @@ void Endpoint::resetVideoCodecParam(const string &codec_id) throw(Error)
 /*
  * Enumerate all SRTP crypto-suite names.
  */
-StringVector Endpoint::srtpCryptoEnum() throw(Error)
+StringVector Endpoint::srtpCryptoEnum()
 {
     unsigned cnt = PJMEDIA_SRTP_MAX_CRYPTOS;
     pjmedia_srtp_crypto cryptos[PJMEDIA_SRTP_MAX_CRYPTOS];
@@ -2157,7 +2157,7 @@ StringVector Endpoint::srtpCryptoEnum() throw(Error)
     return result;
 }
 
-void Endpoint::handleIpChange(const IpChangeParam &param) throw(Error)
+void Endpoint::handleIpChange(const IpChangeParam &param)
 {
     pjsua_ip_change_param ip_change_param = param.toPj();
     PJSUA2_CHECK_EXPR(pjsua_handle_ip_change(&ip_change_param));

@@ -104,14 +104,14 @@ public:
      *
      * @param node		Container to read values from.
      */
-    virtual void readObject(const ContainerNode &node) throw(Error);
+    virtual void readObject(const ContainerNode &node);
 
     /**
      * Write this object to a container node.
      *
      * @param node		Container to write values to.
      */
-    virtual void writeObject(ContainerNode &node) const throw(Error);
+    virtual void writeObject(ContainerNode &node) const;
 };
 
 
@@ -287,14 +287,14 @@ public:
      *
      * @param node		Container to read values from.
      */
-    virtual void readObject(const ContainerNode &node) throw(Error);
+    virtual void readObject(const ContainerNode &node);
 
     /**
      * Write this object to a container node.
      *
      * @param node		Container to write values to.
      */
-    virtual void writeObject(ContainerNode &node) const throw(Error);
+    virtual void writeObject(ContainerNode &node) const;
 };
 
 
@@ -384,14 +384,14 @@ public:
      *
      * @param node		Container to read values from.
      */
-    virtual void readObject(const ContainerNode &node) throw(Error);
+    virtual void readObject(const ContainerNode &node);
 
     /**
      * Write this object to a container node.
      *
      * @param node		Container to write values to.
      */
-    virtual void writeObject(ContainerNode &node) const throw(Error);
+    virtual void writeObject(ContainerNode &node) const;
 };
 
 /**
@@ -744,7 +744,7 @@ public:
     /**
      * Initiaize from PJSIP header.
      */
-    void fromPj(const pjsip_hdr *) throw(Error);
+    void fromPj(const pjsip_hdr *);
 
     /**
      * Convert to PJSIP header.
@@ -784,7 +784,7 @@ public:
     /**
      * Initiaize from PJSIP's pjsip_multipart_part.
      */
-    void fromPj(const pjsip_multipart_part &prm) throw(Error);
+    void fromPj(const pjsip_multipart_part &prm);
 
     /**
      * Convert to PJSIP's pjsip_multipart_part.
@@ -859,7 +859,7 @@ public:
     /**
      * Initiaize from PJSUA's pjsua_msg_data.
      */
-    void fromPj(const pjsua_msg_data &prm) throw(Error);
+    void fromPj(const pjsua_msg_data &prm);
 
     /**
      * Convert to PJSUA's pjsua_msg_data.
@@ -932,20 +932,20 @@ public:
 //! @cond Doxygen_Suppress
 void readIntVector( ContainerNode &node,
                     const string &array_name,
-                    IntVector &v) throw(Error);
+                    IntVector &v);
 void writeIntVector(ContainerNode &node,
                     const string &array_name,
-                    const IntVector &v) throw(Error);
+                    const IntVector &v);
 void readQosParams( ContainerNode &node,
-                    pj_qos_params &qos) throw(Error);
+                    pj_qos_params &qos);
 void writeQosParams( ContainerNode &node,
-                     const pj_qos_params &qos) throw(Error);
+                     const pj_qos_params &qos);
 void readSipHeaders( const ContainerNode &node,
                      const string &array_name,
-                     SipHeaderVector &headers) throw(Error);
+                     SipHeaderVector &headers);
 void writeSipHeaders(ContainerNode &node,
                      const string &array_name,
-                     const SipHeaderVector &headers) throw(Error);
+                     const SipHeaderVector &headers);
 //! @endcond
 #endif // SWIG
 

@@ -476,7 +476,7 @@ Call::~Call()
     }
 }
 
-CallInfo Call::getInfo() const throw(Error)
+CallInfo Call::getInfo() const
 {
     pjsua_call_info pj_ci;
     CallInfo ci;
@@ -547,7 +547,7 @@ Token Call::getUserData() const
     return userData;
 }
 
-pj_stun_nat_type Call::getRemNatType() throw(Error)
+pj_stun_nat_type Call::getRemNatType()
 {
     pj_stun_nat_type nat;
     
@@ -556,7 +556,7 @@ pj_stun_nat_type Call::getRemNatType() throw(Error)
     return nat;
 }
 
-void Call::makeCall(const string &dst_uri, const CallOpParam &prm) throw(Error)
+void Call::makeCall(const string &dst_uri, const CallOpParam &prm)
 {
     pj_str_t pj_dst_uri = str2Pj(dst_uri);
     call_param param(prm.txOption, prm.opt, prm.reason);
@@ -566,7 +566,7 @@ void Call::makeCall(const string &dst_uri, const CallOpParam &prm) throw(Error)
                                             param.p_msg_data, &id) );
 }
 
-void Call::answer(const CallOpParam &prm) throw(Error)
+void Call::answer(const CallOpParam &prm)
 {
     call_param param(prm.txOption, prm.opt, prm.reason,
     		     sdp_pool, prm.sdp.wholeSdp);
@@ -583,7 +583,7 @@ void Call::answer(const CallOpParam &prm) throw(Error)
     }
 }
 
-void Call::hangup(const CallOpParam &prm) throw(Error)
+void Call::hangup(const CallOpParam &prm)
 {
     call_param param(prm.txOption, prm.opt, prm.reason);
     
@@ -591,28 +591,28 @@ void Call::hangup(const CallOpParam &prm) throw(Error)
                                          param.p_msg_data) );
 }
 
-void Call::setHold(const CallOpParam &prm) throw(Error)
+void Call::setHold(const CallOpParam &prm)
 {
     call_param param(prm.txOption, prm.opt, prm.reason);
     
     PJSUA2_CHECK_EXPR( pjsua_call_set_hold2(id, prm.options, param.p_msg_data));
 }
 
-void Call::reinvite(const CallOpParam &prm) throw(Error)
+void Call::reinvite(const CallOpParam &prm)
 {
     call_param param(prm.txOption, prm.opt, prm.reason);
 
     PJSUA2_CHECK_EXPR( pjsua_call_reinvite2(id, param.p_opt, param.p_msg_data));
 }
 
-void Call::update(const CallOpParam &prm) throw(Error)
+void Call::update(const CallOpParam &prm)
 {
     call_param param(prm.txOption, prm.opt, prm.reason);
     
     PJSUA2_CHECK_EXPR( pjsua_call_update2(id, param.p_opt, param.p_msg_data) );
 }
 
-void Call::xfer(const string &dest, const CallOpParam &prm) throw(Error)
+void Call::xfer(const string &dest, const CallOpParam &prm)
 {
     call_param param(prm.txOption);
     pj_str_t pj_dest = str2Pj(dest);
@@ -621,7 +621,7 @@ void Call::xfer(const string &dest, const CallOpParam &prm) throw(Error)
 }
 
 void Call::xferReplaces(const Call& dest_call,
-                  const CallOpParam &prm) throw(Error)
+                  const CallOpParam &prm)
 {
     call_param param(prm.txOption);
     
@@ -629,19 +629,19 @@ void Call::xferReplaces(const Call& dest_call,
                                                prm.options, param.p_msg_data) );
 }
 
-void Call::processRedirect(pjsip_redirect_op cmd) throw(Error)
+void Call::processRedirect(pjsip_redirect_op cmd)
 {
     PJSUA2_CHECK_EXPR(pjsua_call_process_redirect(id, cmd));
 }
 
-void Call::dialDtmf(const string &digits) throw(Error)
+void Call::dialDtmf(const string &digits)
 {
     pj_str_t pj_digits = str2Pj(digits);
     
     PJSUA2_CHECK_EXPR(pjsua_call_dial_dtmf(id, &pj_digits));
 }
 
-void Call::sendDtmf(const CallSendDtmfParam &param) throw (Error)
+void Call::sendDtmf(const CallSendDtmfParam &param)
 {
     pjsua_call_send_dtmf_param pj_param = param.toPj();
     
@@ -650,7 +650,7 @@ void Call::sendDtmf(const CallSendDtmfParam &param) throw (Error)
 
 
 void Call::sendInstantMessage(const SendInstantMessageParam& prm)
-    throw(Error)
+   
 {
     pj_str_t mime_type = str2Pj(prm.contentType);
     pj_str_t content = str2Pj(prm.content);
@@ -661,7 +661,7 @@ void Call::sendInstantMessage(const SendInstantMessageParam& prm)
 }
 
 void Call::sendTypingIndication(const SendTypingIndicationParam &prm)
-    throw(Error)
+   
 {
     call_param param(prm.txOption);
     
@@ -671,7 +671,7 @@ void Call::sendTypingIndication(const SendTypingIndicationParam &prm)
                                                  param.p_msg_data) );
 }
 
-void Call::sendRequest(const CallSendRequestParam &prm) throw(Error)
+void Call::sendRequest(const CallSendRequestParam &prm)
 {
     pj_str_t method = str2Pj(prm.method);
     call_param param(prm.txOption);
@@ -679,7 +679,7 @@ void Call::sendRequest(const CallSendRequestParam &prm) throw(Error)
     PJSUA2_CHECK_EXPR(pjsua_call_send_request(id, &method, param.p_msg_data) );
 }
 
-string Call::dump(bool with_media, const string indent) throw(Error)
+string Call::dump(bool with_media, const string indent)
 {
 #if defined(PJMEDIA_HAS_RTCP_XR) && (PJMEDIA_HAS_RTCP_XR != 0)
     char buffer[1024 * 10];
@@ -715,7 +715,7 @@ bool Call::vidStreamIsRunning(int med_idx, pjmedia_dir dir) const
 }
 
 void Call::vidSetStream(pjsua_call_vid_strm_op op,
-                        const CallVidSetStreamParam &param) throw(Error)
+                        const CallVidSetStreamParam &param)
 {
 #if PJSUA_HAS_VIDEO
     pjsua_call_vid_strm_op_param prm;
@@ -731,7 +731,7 @@ void Call::vidSetStream(pjsua_call_vid_strm_op op,
 #endif
 }
 
-StreamInfo Call::getStreamInfo(unsigned med_idx) const throw(Error)
+StreamInfo Call::getStreamInfo(unsigned med_idx) const
 {
     pjsua_stream_info pj_si;
     StreamInfo si;
@@ -741,7 +741,7 @@ StreamInfo Call::getStreamInfo(unsigned med_idx) const throw(Error)
     return si;
 }
 
-StreamStat Call::getStreamStat(unsigned med_idx) const throw(Error)
+StreamStat Call::getStreamStat(unsigned med_idx) const
 {
     pjsua_stream_stat pj_ss;
     StreamStat ss;
@@ -752,7 +752,7 @@ StreamStat Call::getStreamStat(unsigned med_idx) const throw(Error)
 }
 
 MediaTransportInfo Call::getMedTransportInfo(unsigned med_idx) const
-    throw(Error)
+   
 {
     pjmedia_transport_info pj_mti;
     MediaTransportInfo mti;

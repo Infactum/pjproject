@@ -128,7 +128,7 @@ AudioMedia::AudioMedia()
 
 }
 
-void AudioMedia::registerMediaPort(MediaPort port) throw(Error)
+void AudioMedia::registerMediaPort(MediaPort port)
 {
     /* Check if media already added to Conf bridge. */
     pj_assert(!Endpoint::instance().mediaExists(*this));
@@ -178,7 +178,7 @@ AudioMedia::~AudioMedia()
     unregisterMediaPort();
 }
 
-ConfPortInfo AudioMedia::getPortInfo() const throw(Error)
+ConfPortInfo AudioMedia::getPortInfo() const
 {
     return AudioMedia::getPortInfoFromId(id);
 }
@@ -188,7 +188,7 @@ int AudioMedia::getPortId() const
     return id;
 }
 
-ConfPortInfo AudioMedia::getPortInfoFromId(int port_id) throw(Error)
+ConfPortInfo AudioMedia::getPortInfoFromId(int port_id)
 {
     pjsua_conf_port_info pj_info;
     ConfPortInfo pi;
@@ -198,14 +198,14 @@ ConfPortInfo AudioMedia::getPortInfoFromId(int port_id) throw(Error)
     return pi;
 }
 
-void AudioMedia::startTransmit(const AudioMedia &sink) const throw(Error)
+void AudioMedia::startTransmit(const AudioMedia &sink) const
 {
     PJSUA2_CHECK_EXPR( pjsua_conf_connect(id, sink.id) );
 }
 
 void AudioMedia::startTransmit2(const AudioMedia &sink,
 				const AudioMediaTransmitParam &param) const
-     throw(Error)
+    
 {
     pjsua_conf_connect_param pj_param;
     
@@ -214,29 +214,29 @@ void AudioMedia::startTransmit2(const AudioMedia &sink,
     PJSUA2_CHECK_EXPR( pjsua_conf_connect2(id, sink.id, &pj_param) );
 }
 
-void AudioMedia::stopTransmit(const AudioMedia &sink) const throw(Error)
+void AudioMedia::stopTransmit(const AudioMedia &sink) const
 {
     PJSUA2_CHECK_EXPR( pjsua_conf_disconnect(id, sink.id) );
 }
 
-void AudioMedia::adjustRxLevel(float level) throw(Error)
+void AudioMedia::adjustRxLevel(float level)
 {
     PJSUA2_CHECK_EXPR( pjsua_conf_adjust_tx_level(id, level) );
 }
 
-void AudioMedia::adjustTxLevel(float level) throw(Error)
+void AudioMedia::adjustTxLevel(float level)
 {
     PJSUA2_CHECK_EXPR( pjsua_conf_adjust_rx_level(id, level) );
 }
 
-unsigned AudioMedia::getRxLevel() const throw(Error)
+unsigned AudioMedia::getRxLevel() const
 {
     unsigned level;
     PJSUA2_CHECK_EXPR( pjsua_conf_get_signal_level(id, &level, NULL) );
     return level * 100 / 255;
 }
 
-unsigned AudioMedia::getTxLevel() const throw(Error)
+unsigned AudioMedia::getTxLevel() const
 {
     unsigned level;
     PJSUA2_CHECK_EXPR( pjsua_conf_get_signal_level(id, NULL, &level) );
@@ -266,7 +266,7 @@ AudioMediaPlayer::~AudioMediaPlayer()
 
 void AudioMediaPlayer::createPlayer(const string &file_name,
 				    unsigned options)
-				    throw(Error)
+				   
 {
     if (playerId != PJSUA_INVALID_ID) {
 	PJSUA2_RAISE_ERROR(PJ_EEXISTS);
@@ -302,7 +302,7 @@ void AudioMediaPlayer::createPlayer(const string &file_name,
 void AudioMediaPlayer::createPlaylist(const StringVector &file_names,
 				      const string &label,
 				      unsigned options)
-				      throw(Error)
+				     
 {
     if (playerId != PJSUA_INVALID_ID) {
 	PJSUA2_RAISE_ERROR(PJ_EEXISTS);
@@ -347,7 +347,7 @@ void AudioMediaPlayer::createPlaylist(const StringVector &file_names,
     registerMediaPort(NULL);
 }
 
-AudioMediaPlayerInfo AudioMediaPlayer::getInfo() const throw(Error)
+AudioMediaPlayerInfo AudioMediaPlayer::getInfo() const
 {
     AudioMediaPlayerInfo info;
     pjmedia_wav_player_info pj_info;
@@ -363,7 +363,7 @@ AudioMediaPlayerInfo AudioMediaPlayer::getInfo() const throw(Error)
     return info;
 }
 
-pj_uint32_t AudioMediaPlayer::getPos() const throw(Error)
+pj_uint32_t AudioMediaPlayer::getPos() const
 {
     pj_ssize_t pos = pjsua_player_get_pos(playerId);
     if (pos < 0) {
@@ -372,7 +372,7 @@ pj_uint32_t AudioMediaPlayer::getPos() const throw(Error)
     return (pj_uint32_t)pos;
 }
 
-void AudioMediaPlayer::setPos(pj_uint32_t samples) throw(Error)
+void AudioMediaPlayer::setPos(pj_uint32_t samples)
 {
     PJSUA2_CHECK_EXPR( pjsua_player_set_pos(playerId, samples) );
 }
@@ -410,7 +410,7 @@ void AudioMediaRecorder::createRecorder(const string &file_name,
 				        unsigned enc_type,
 				        pj_ssize_t max_size,
 				        unsigned options)
-				        throw(Error)
+				       
 {
     PJ_UNUSED_ARG(max_size);
 
@@ -460,7 +460,7 @@ ToneGenerator::~ToneGenerator()
 }
 
 void ToneGenerator::createToneGenerator(unsigned clock_rate,
-					unsigned channel_count) throw(Error)
+					unsigned channel_count)
 {
     pj_status_t status;
 
@@ -488,7 +488,7 @@ bool ToneGenerator::isBusy() const
     return tonegen && pjmedia_tonegen_is_busy(tonegen) != 0;
 }
 
-void ToneGenerator::stop() throw(Error)
+void ToneGenerator::stop()
 {
     pj_status_t status;
 
@@ -500,7 +500,7 @@ void ToneGenerator::stop() throw(Error)
     PJSUA2_CHECK_RAISE_ERROR2(status, "ToneGenerator::stop()");
 }
 
-void ToneGenerator::rewind() throw(Error)
+void ToneGenerator::rewind()
 {
     pj_status_t status;
 
@@ -513,7 +513,7 @@ void ToneGenerator::rewind() throw(Error)
 }
 
 void ToneGenerator::play(const ToneDescVector &tones,
-                         bool loop) throw(Error)
+                         bool loop)
 {
     pj_status_t status;
 
@@ -530,7 +530,7 @@ void ToneGenerator::play(const ToneDescVector &tones,
 }
 
 void ToneGenerator::playDigits(const ToneDigitVector &digits,
-                               bool loop) throw(Error)
+                               bool loop)
 {
     pj_status_t status;
 
@@ -546,7 +546,7 @@ void ToneGenerator::playDigits(const ToneDigitVector &digits,
     PJSUA2_CHECK_RAISE_ERROR2(status, "ToneGenerator::playDigits()");
 }
 
-ToneDigitMapVector ToneGenerator::getDigitMap() const throw(Error)
+ToneDigitMapVector ToneGenerator::getDigitMap() const
 {
     const pjmedia_tone_digit_map *pdm;
     ToneDigitMapVector tdm;
@@ -578,7 +578,6 @@ ToneDigitMapVector ToneGenerator::getDigitMap() const throw(Error)
 }
 
 void ToneGenerator::setDigitMap(const ToneDigitMapVector &digit_map)
-				throw(Error)
 {
     unsigned i;
     pj_status_t status;
@@ -665,31 +664,31 @@ AudDevManager::~AudDevManager()
     clearAudioDevList();
 }
 
-int AudDevManager::getCaptureDev() const throw(Error)
+int AudDevManager::getCaptureDev() const
 {
     return getActiveDev(true);
 }
 
-AudioMedia &AudDevManager::getCaptureDevMedia() throw(Error)
+AudioMedia &AudDevManager::getCaptureDevMedia()
 {
     if (!devMedia)
 	devMedia = new DevAudioMedia;
     return *devMedia;
 }
 
-int AudDevManager::getPlaybackDev() const throw(Error)
+int AudDevManager::getPlaybackDev() const
 {
     return getActiveDev(false);
 }
 
-AudioMedia &AudDevManager::getPlaybackDevMedia() throw(Error)
+AudioMedia &AudDevManager::getPlaybackDevMedia()
 {
     if (!devMedia)
     	devMedia = new DevAudioMedia;
     return *devMedia;
 }
 
-void AudDevManager::setCaptureDev(int capture_dev) const throw(Error)
+void AudDevManager::setCaptureDev(int capture_dev) const
 {    
     pjsua_snd_dev_param param;
     pjsua_snd_dev_param_default(&param);    
@@ -704,7 +703,7 @@ void AudDevManager::setCaptureDev(int capture_dev) const throw(Error)
     PJSUA2_CHECK_EXPR( pjsua_set_snd_dev2(&param) );
 }
 
-void AudDevManager::setPlaybackDev(int playback_dev) const throw(Error)
+void AudDevManager::setPlaybackDev(int playback_dev) const
 {
     pjsua_snd_dev_param param;
     pjsua_snd_dev_param_default(&param);    
@@ -719,7 +718,7 @@ void AudDevManager::setPlaybackDev(int playback_dev) const throw(Error)
     PJSUA2_CHECK_EXPR( pjsua_set_snd_dev2(&param) );    
 }
 
-const AudioDevInfoVector &AudDevManager::enumDev() throw(Error)
+const AudioDevInfoVector &AudDevManager::enumDev()
 {
     pjmedia_aud_dev_info pj_info[MAX_DEV_COUNT];
     unsigned count = MAX_DEV_COUNT;
@@ -737,7 +736,7 @@ const AudioDevInfoVector &AudDevManager::enumDev() throw(Error)
     return audioDevList;
 }
 
-void AudDevManager::setNullDev() throw(Error)
+void AudDevManager::setNullDev()
 {
     PJSUA2_CHECK_EXPR( pjsua_set_null_snd_dev() );
 }
@@ -747,7 +746,7 @@ MediaPort *AudDevManager::setNoDev()
     return (MediaPort*)pjsua_set_no_snd_dev();
 }
 
-void AudDevManager::setSndDevMode(unsigned mode) const throw(Error)
+void AudDevManager::setSndDevMode(unsigned mode) const
 {    
     int capture_dev = 0, playback_dev = 0;
     pjsua_snd_dev_param param;
@@ -763,12 +762,12 @@ void AudDevManager::setSndDevMode(unsigned mode) const throw(Error)
 }
 
 void AudDevManager::setEcOptions(unsigned tail_msec,
-				 unsigned options) throw(Error)
+				 unsigned options)
 {
     PJSUA2_CHECK_EXPR( pjsua_set_ec(tail_msec, options) );
 }
 
-unsigned AudDevManager::getEcTail() const throw(Error)
+unsigned AudDevManager::getEcTail() const
 {
     unsigned tail_msec = 0;
 
@@ -782,7 +781,7 @@ bool AudDevManager::sndIsActive() const
     return PJ2BOOL(pjsua_snd_is_active());
 }
 
-void AudDevManager::refreshDevs() throw(Error)
+void AudDevManager::refreshDevs()
 {
     PJSUA2_CHECK_EXPR( pjmedia_aud_dev_refresh() );
 }
@@ -793,7 +792,7 @@ unsigned AudDevManager::getDevCount() const
 }
 
 AudioDevInfo
-AudDevManager::getDevInfo(int id) const throw(Error)
+AudDevManager::getDevInfo(int id) const
 {
     AudioDevInfo dev_info;
     pjmedia_aud_dev_info pj_info;
@@ -805,7 +804,7 @@ AudDevManager::getDevInfo(int id) const throw(Error)
 }
 
 int AudDevManager::lookupDev(const string &drv_name,
-			     const string &dev_name) const throw(Error)
+			     const string &dev_name) const
 {
     pjmedia_aud_dev_index pj_idx = 0;
 
@@ -824,7 +823,7 @@ string AudDevManager::capName(pjmedia_aud_dev_cap cap) const
 
 void
 AudDevManager::setExtFormat(const MediaFormatAudio &format,
-			    bool keep) throw(Error)
+			    bool keep)
 {
     pjmedia_format pj_format = format.toPj();
 
@@ -833,7 +832,7 @@ AudDevManager::setExtFormat(const MediaFormatAudio &format,
 					     keep) );
 }
 
-MediaFormatAudio AudDevManager::getExtFormat() const throw(Error)
+MediaFormatAudio AudDevManager::getExtFormat() const
 {
     pjmedia_format pj_format;
     MediaFormatAudio format;
@@ -847,14 +846,14 @@ MediaFormatAudio AudDevManager::getExtFormat() const throw(Error)
 }
 
 void AudDevManager::setInputLatency(unsigned latency_msec,
-				    bool keep) throw(Error)
+				    bool keep)
 {
     PJSUA2_CHECK_EXPR( pjsua_snd_set_setting(PJMEDIA_AUD_DEV_CAP_INPUT_LATENCY,
 					     &latency_msec,
 					     keep) );
 }
 
-unsigned AudDevManager::getInputLatency() const throw(Error)
+unsigned AudDevManager::getInputLatency() const
 {
     unsigned latency_msec = 0;
 
@@ -866,14 +865,14 @@ unsigned AudDevManager::getInputLatency() const throw(Error)
 
 void
 AudDevManager::setOutputLatency(unsigned latency_msec,
-				bool keep) throw(Error)
+				bool keep)
 {
     PJSUA2_CHECK_EXPR( pjsua_snd_set_setting(PJMEDIA_AUD_DEV_CAP_OUTPUT_LATENCY,
 					     &latency_msec,
 					     keep) );
 }
 
-unsigned AudDevManager::getOutputLatency() const throw(Error)
+unsigned AudDevManager::getOutputLatency() const
 {
     unsigned latency_msec = 0;
 
@@ -883,7 +882,7 @@ unsigned AudDevManager::getOutputLatency() const throw(Error)
     return latency_msec;
 }
 
-void AudDevManager::setInputVolume(unsigned volume, bool keep) throw(Error)
+void AudDevManager::setInputVolume(unsigned volume, bool keep)
 {
     PJSUA2_CHECK_EXPR(
 	    pjsua_snd_set_setting(PJMEDIA_AUD_DEV_CAP_INPUT_VOLUME_SETTING,
@@ -891,7 +890,7 @@ void AudDevManager::setInputVolume(unsigned volume, bool keep) throw(Error)
 				  keep) );
 }
 
-unsigned AudDevManager::getInputVolume() const throw(Error)
+unsigned AudDevManager::getInputVolume() const
 {
     unsigned volume = 0;
 
@@ -902,7 +901,7 @@ unsigned AudDevManager::getInputVolume() const throw(Error)
     return volume;
 }
 
-void AudDevManager::setOutputVolume(unsigned volume, bool keep) throw(Error)
+void AudDevManager::setOutputVolume(unsigned volume, bool keep)
 {
     PJSUA2_CHECK_EXPR(
 	    pjsua_snd_set_setting(PJMEDIA_AUD_DEV_CAP_OUTPUT_VOLUME_SETTING,
@@ -910,7 +909,7 @@ void AudDevManager::setOutputVolume(unsigned volume, bool keep) throw(Error)
 				  keep) );
 }
 
-unsigned AudDevManager::getOutputVolume() const throw(Error)
+unsigned AudDevManager::getOutputVolume() const
 {
     unsigned volume = 0;
 
@@ -921,7 +920,7 @@ unsigned AudDevManager::getOutputVolume() const throw(Error)
     return volume;
 }
 
-unsigned AudDevManager::getInputSignal() const throw(Error)
+unsigned AudDevManager::getInputSignal() const
 {
     unsigned signal = 0;
 
@@ -932,7 +931,7 @@ unsigned AudDevManager::getInputSignal() const throw(Error)
     return signal;
 }
 
-unsigned AudDevManager::getOutputSignal() const throw(Error)
+unsigned AudDevManager::getOutputSignal() const
 {
     unsigned signal = 0;
 
@@ -945,14 +944,14 @@ unsigned AudDevManager::getOutputSignal() const throw(Error)
 
 void
 AudDevManager::setInputRoute(pjmedia_aud_dev_route route,
-			     bool keep) throw(Error)
+			     bool keep)
 {
     PJSUA2_CHECK_EXPR( pjsua_snd_set_setting(PJMEDIA_AUD_DEV_CAP_INPUT_ROUTE,
 					     &route,
 					     keep) );
 }
 
-pjmedia_aud_dev_route AudDevManager::getInputRoute() const throw(Error)
+pjmedia_aud_dev_route AudDevManager::getInputRoute() const
 {
     pjmedia_aud_dev_route route = PJMEDIA_AUD_DEV_ROUTE_DEFAULT;
 
@@ -964,14 +963,14 @@ pjmedia_aud_dev_route AudDevManager::getInputRoute() const throw(Error)
 
 void
 AudDevManager::setOutputRoute(pjmedia_aud_dev_route route,
-			      bool keep) throw(Error)
+			      bool keep)
 {
     PJSUA2_CHECK_EXPR( pjsua_snd_set_setting(PJMEDIA_AUD_DEV_CAP_OUTPUT_ROUTE,
 					     &route,
 					     keep) );
 }
 
-pjmedia_aud_dev_route AudDevManager::getOutputRoute() const throw(Error)
+pjmedia_aud_dev_route AudDevManager::getOutputRoute() const
 {
     pjmedia_aud_dev_route route = PJMEDIA_AUD_DEV_ROUTE_DEFAULT;
 
@@ -981,14 +980,14 @@ pjmedia_aud_dev_route AudDevManager::getOutputRoute() const throw(Error)
     return route;
 }
 
-void AudDevManager::setVad(bool enable, bool keep) throw(Error)
+void AudDevManager::setVad(bool enable, bool keep)
 {
     PJSUA2_CHECK_EXPR( pjsua_snd_set_setting(PJMEDIA_AUD_DEV_CAP_VAD,
 					     &enable,
 					     keep) );
 }
 
-bool AudDevManager::getVad() const throw(Error)
+bool AudDevManager::getVad() const
 {
     bool enable = false;
 
@@ -998,14 +997,14 @@ bool AudDevManager::getVad() const throw(Error)
     return enable;
 }
 
-void AudDevManager::setCng(bool enable, bool keep) throw(Error)
+void AudDevManager::setCng(bool enable, bool keep)
 {
     PJSUA2_CHECK_EXPR( pjsua_snd_set_setting(PJMEDIA_AUD_DEV_CAP_CNG,
 					     &enable,
 					     keep) );
 }
 
-bool AudDevManager::getCng() const throw(Error)
+bool AudDevManager::getCng() const
 {
     bool enable = false;
 
@@ -1015,14 +1014,14 @@ bool AudDevManager::getCng() const throw(Error)
     return enable;
 }
 
-void AudDevManager::setPlc(bool enable, bool keep) throw(Error)
+void AudDevManager::setPlc(bool enable, bool keep)
 {
     PJSUA2_CHECK_EXPR( pjsua_snd_set_setting(PJMEDIA_AUD_DEV_CAP_PLC,
 					     &enable,
 					     keep) );
 }
 
-bool AudDevManager::getPlc() const throw(Error)
+bool AudDevManager::getPlc() const
 {
     bool enable = false;
 
@@ -1040,7 +1039,7 @@ void AudDevManager::clearAudioDevList()
     audioDevList.clear();
 }
 
-int AudDevManager::getActiveDev(bool is_capture) const throw(Error)
+int AudDevManager::getActiveDev(bool is_capture) const
 {
     int capture_dev = 0, playback_dev = 0;
     PJSUA2_CHECK_EXPR( pjsua_get_snd_dev(&capture_dev, &playback_dev) );
@@ -1128,7 +1127,7 @@ VideoWindow::VideoWindow(pjsua_vid_win_id win_id)
 #endif
 }
 
-VideoWindowInfo VideoWindow::getInfo() const throw(Error)
+VideoWindowInfo VideoWindow::getInfo() const
 {
     VideoWindowInfo vwi;
     pj_bzero(&vwi, sizeof(vwi));
@@ -1150,7 +1149,7 @@ VideoWindowInfo VideoWindow::getInfo() const throw(Error)
     return vwi;
 }
     
-void VideoWindow::Show(bool show) throw(Error)
+void VideoWindow::Show(bool show)
 {
 #if PJSUA_HAS_VIDEO
     PJSUA2_CHECK_EXPR( pjsua_vid_win_set_show(winId, show) );
@@ -1159,7 +1158,7 @@ void VideoWindow::Show(bool show) throw(Error)
 #endif
 }
 
-void VideoWindow::setPos(const MediaCoordinate &pos) throw(Error)
+void VideoWindow::setPos(const MediaCoordinate &pos)
 {
 #if PJSUA_HAS_VIDEO
     pjmedia_coord pj_pos;
@@ -1172,7 +1171,7 @@ void VideoWindow::setPos(const MediaCoordinate &pos) throw(Error)
 #endif
 }
 
-void VideoWindow::setSize(const MediaSize &size) throw(Error)
+void VideoWindow::setSize(const MediaSize &size)
 {
 #if PJSUA_HAS_VIDEO
     pjmedia_rect_size pj_size;
@@ -1185,7 +1184,7 @@ void VideoWindow::setSize(const MediaSize &size) throw(Error)
 #endif
 }
 
-void VideoWindow::rotate(int angle) throw(Error)
+void VideoWindow::rotate(int angle)
 {
 #if PJSUA_HAS_VIDEO
     PJSUA2_CHECK_EXPR( pjsua_vid_win_rotate(winId, angle) );
@@ -1194,7 +1193,7 @@ void VideoWindow::rotate(int angle) throw(Error)
 #endif
 }
 
-void VideoWindow::setWindow(const VideoWindowHandle &win) throw(Error)
+void VideoWindow::setWindow(const VideoWindowHandle &win)
 {
 #if PJSUA_HAS_VIDEO
     pjmedia_vid_dev_hwnd vhwnd;
@@ -1263,7 +1262,7 @@ bool VideoPreview::hasNative()
 #endif
 }
 
-void VideoPreview::start(const VideoPreviewOpParam &param) throw(Error)
+void VideoPreview::start(const VideoPreviewOpParam &param)
 {
 #if PJSUA_HAS_VIDEO
     pjsua_vid_preview_param prm = param.toPj();
@@ -1274,7 +1273,7 @@ void VideoPreview::start(const VideoPreviewOpParam &param) throw(Error)
 #endif
 }
 
-void VideoPreview::stop() throw(Error)
+void VideoPreview::stop()
 {
 #if PJSUA_HAS_VIDEO
     pjsua_vid_preview_stop(devId);
@@ -1364,7 +1363,7 @@ VideoDevInfo::~VideoDevInfo()
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void VidDevManager::refreshDevs() throw(Error)
+void VidDevManager::refreshDevs()
 {
 #if PJSUA_HAS_VIDEO
     PJSUA2_CHECK_EXPR(pjmedia_vid_dev_refresh());
@@ -1380,7 +1379,7 @@ unsigned VidDevManager::getDevCount()
 #endif
 }
 
-VideoDevInfo VidDevManager::getDevInfo(int dev_id) const throw(Error)
+VideoDevInfo VidDevManager::getDevInfo(int dev_id) const
 {
     VideoDevInfo dev_info;
 #if PJSUA_HAS_VIDEO
@@ -1395,7 +1394,7 @@ VideoDevInfo VidDevManager::getDevInfo(int dev_id) const throw(Error)
     return dev_info;
 }
 
-const VideoDevInfoVector &VidDevManager::enumDev() throw(Error)
+const VideoDevInfoVector &VidDevManager::enumDev()
 {
 #if PJSUA_HAS_VIDEO
     pjmedia_vid_dev_info pj_info[MAX_DEV_COUNT];
@@ -1416,7 +1415,7 @@ const VideoDevInfoVector &VidDevManager::enumDev() throw(Error)
 }
 
 int VidDevManager::lookupDev(const string &drv_name,
-			     const string &dev_name) const throw(Error)
+			     const string &dev_name) const
 {
     pjmedia_vid_dev_index pj_idx = 0;
 #if PJSUA_HAS_VIDEO
@@ -1443,7 +1442,7 @@ string VidDevManager::capName(pjmedia_vid_dev_cap cap) const
 
 void VidDevManager::setFormat(int dev_id,
 			      const MediaFormatVideo &format,
-			      bool keep) throw(Error)
+			      bool keep)
 {
 #if PJSUA_HAS_VIDEO
     pjmedia_format pj_format = format.toPj();
@@ -1459,7 +1458,7 @@ void VidDevManager::setFormat(int dev_id,
 #endif
 }
 
-MediaFormatVideo VidDevManager::getFormat(int dev_id) const throw(Error)
+MediaFormatVideo VidDevManager::getFormat(int dev_id) const
 {
     MediaFormatVideo vid_format;
     pj_bzero(&vid_format, sizeof(vid_format));
@@ -1477,7 +1476,7 @@ MediaFormatVideo VidDevManager::getFormat(int dev_id) const throw(Error)
 
 void VidDevManager::setInputScale(int dev_id,
 				  const MediaSize &scale,
-				  bool keep) throw(Error)
+				  bool keep)
 {
 #if PJSUA_HAS_VIDEO
     pjmedia_rect_size pj_size;
@@ -1494,7 +1493,7 @@ void VidDevManager::setInputScale(int dev_id,
 #endif
 }
 
-MediaSize VidDevManager::getInputScale(int dev_id) const throw(Error)
+MediaSize VidDevManager::getInputScale(int dev_id) const
 {
     MediaSize scale;
     pj_bzero(&scale, sizeof(scale));
@@ -1514,7 +1513,7 @@ MediaSize VidDevManager::getInputScale(int dev_id) const throw(Error)
 
 void VidDevManager::setOutputWindowFlags(int dev_id, 
 					 int flags, 
-					 bool keep) throw(Error)
+					 bool keep)
 {    
 #if PJSUA_HAS_VIDEO    
     PJSUA2_CHECK_EXPR(pjsua_vid_dev_set_setting(dev_id,
@@ -1528,7 +1527,7 @@ void VidDevManager::setOutputWindowFlags(int dev_id,
 #endif
 }
 
-int VidDevManager::getOutputWindowFlags(int dev_id) throw(Error)
+int VidDevManager::getOutputWindowFlags(int dev_id)
 {
     int flags = 0;
 
@@ -1543,7 +1542,7 @@ int VidDevManager::getOutputWindowFlags(int dev_id) throw(Error)
 }
 
 void VidDevManager::switchDev(int dev_id,
-			      const VideoSwitchParam &param) throw(Error)
+			      const VideoSwitchParam &param)
 {
 #if PJSUA_HAS_VIDEO
     pjmedia_vid_dev_switch_param pj_param;
@@ -1581,7 +1580,7 @@ bool VidDevManager::isCaptureActive(int dev_id) const
     
 void VidDevManager::setCaptureOrient(pjmedia_vid_dev_index dev_id,
     			  	     pjmedia_orient orient,
-    			  	     bool keep) throw(Error)
+    			  	     bool keep)
 {
 #if PJSUA_HAS_VIDEO
     PJSUA2_CHECK_EXPR(pjsua_vid_dev_set_setting(dev_id,

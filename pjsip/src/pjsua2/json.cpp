@@ -28,48 +28,35 @@ using namespace std;
 
 /* Json node operations */
 static bool		jsonNode_hasUnread(const ContainerNode*);
-static string		jsonNode_unreadName(const ContainerNode*n)
-				            throw(Error);
+static string		jsonNode_unreadName(const ContainerNode*n);
 static float		jsonNode_readNumber(const ContainerNode*,
-            		                    const string&)
-					      throw(Error);
+            		                    const string&);
 static bool		jsonNode_readBool(const ContainerNode*,
-           		                  const string&)
-					  throw(Error);
+           		                  const string&);
 static string		jsonNode_readString(const ContainerNode*,
-             		                    const string&)
-					    throw(Error);
+             		                    const string&);
 static StringVector	jsonNode_readStringVector(const ContainerNode*,
-                   	                          const string&)
-						  throw(Error);
+                   	                          const string&);
 static ContainerNode	jsonNode_readContainer(const ContainerNode*,
-                    	                       const string &)
-					       throw(Error);
+                    	                       const string &);
 static ContainerNode	jsonNode_readArray(const ContainerNode*,
-                    	                   const string &)
-					   throw(Error);
+                    	                   const string &);
 static void		jsonNode_writeNumber(ContainerNode*,
            		                     const string &name,
-           		                     float num)
-           		                     throw(Error);
+           		                     float num);
 static void		jsonNode_writeBool(ContainerNode*,
            		                   const string &name,
-           		                   bool value)
-					   throw(Error);
+           		                   bool value);
 static void		jsonNode_writeString(ContainerNode*,
            		                     const string &name,
-           		                     const string &value)
-					     throw(Error);
+           		                     const string &value);
 static void		jsonNode_writeStringVector(ContainerNode*,
            		                           const string &name,
-           		                           const StringVector &value)
-					           throw(Error);
+           		                           const StringVector &value);
 static ContainerNode 	jsonNode_writeNewContainer(ContainerNode*,
-                     	                           const string &name)
-					           throw(Error);
+                     	                           const string &name);
 static ContainerNode 	jsonNode_writeNewArray(ContainerNode*,
-                     	                       const string &name)
-					       throw(Error);
+                     	                       const string &name);
 
 static container_node_op json_op =
 {
@@ -114,7 +101,7 @@ void JsonDocument::initRoot() const
     rootNode.data.data2 = root->value.children.next;
 }
 
-void JsonDocument::loadFile(const string &filename) throw(Error)
+void JsonDocument::loadFile(const string &filename) 
 {
     if (root)
 	PJSUA2_RAISE_ERROR3(PJ_EINVALIDOP, "JsonDocument.loadString()",
@@ -174,7 +161,7 @@ on_error:
 	PJSUA2_RAISE_ERROR(status);
 }
 
-void JsonDocument::loadString(const string &input) throw(Error)
+void JsonDocument::loadString(const string &input) 
 {
     if (root)
 	PJSUA2_RAISE_ERROR3(PJ_EINVALIDOP, "JsonDocument.loadString()",
@@ -214,7 +201,7 @@ static pj_status_t json_file_writer(const char *s,
     return pj_file_write(sd->fd, s, &ssize);
 }
 
-void JsonDocument::saveFile(const string &filename) throw(Error)
+void JsonDocument::saveFile(const string &filename) 
 {
     struct save_file_data sd;
     pj_status_t status;
@@ -247,7 +234,7 @@ static pj_status_t json_string_writer(const char *s,
     return PJ_SUCCESS;
 }
 
-string JsonDocument::saveString() throw(Error)
+string JsonDocument::saveString() 
 {
     struct save_string_data sd;
     pj_status_t status;
@@ -333,7 +320,7 @@ static void json_verify(struct json_node_data *jdat,
 }
 
 static string jsonNode_unreadName(const ContainerNode *node)
-				  throw(Error)
+				  
 {
     json_node_data *jdat = (json_node_data*)&node->data;
     json_verify(jdat, "unreadName()", "", PJ_JSON_VAL_NULL);
@@ -342,7 +329,7 @@ static string jsonNode_unreadName(const ContainerNode *node)
 
 static float jsonNode_readNumber(const ContainerNode *node,
             		         const string &name)
-				 throw(Error)
+				 
 {
     json_node_data *jdat = (json_node_data*)&node->data;
     json_verify(jdat, "readNumber()", name, PJ_JSON_VAL_NUMBER);
@@ -352,7 +339,7 @@ static float jsonNode_readNumber(const ContainerNode *node,
 
 static bool jsonNode_readBool(const ContainerNode *node,
 			      const string &name)
-			      throw(Error)
+			      
 {
     json_node_data *jdat = (json_node_data*)&node->data;
     json_verify(jdat, "readBool()", name, PJ_JSON_VAL_BOOL);
@@ -362,7 +349,7 @@ static bool jsonNode_readBool(const ContainerNode *node,
 
 static string jsonNode_readString(const ContainerNode *node,
 				  const string &name)
-				  throw(Error)
+				  
 {
     json_node_data *jdat = (json_node_data*)&node->data;
     json_verify(jdat, "readString()", name, PJ_JSON_VAL_STRING);
@@ -372,7 +359,7 @@ static string jsonNode_readString(const ContainerNode *node,
 
 static StringVector jsonNode_readStringVector(const ContainerNode *node,
                    	                      const string &name)
-					      throw(Error)
+					      
 {
     json_node_data *jdat = (json_node_data*)&node->data;
     json_verify(jdat, "readStringVector()", name, PJ_JSON_VAL_ARRAY);
@@ -398,7 +385,7 @@ static StringVector jsonNode_readStringVector(const ContainerNode *node,
 
 static ContainerNode jsonNode_readContainer(const ContainerNode *node,
                     	                    const string &name)
-					    throw(Error)
+					    
 {
     json_node_data *jdat = (json_node_data*)&node->data;
     json_verify(jdat, "readContainer()", name, PJ_JSON_VAL_OBJ);
@@ -416,7 +403,7 @@ static ContainerNode jsonNode_readContainer(const ContainerNode *node,
 
 static ContainerNode jsonNode_readArray(const ContainerNode *node,
                     	                const string &name)
-					throw(Error)
+					
 {
     json_node_data *jdat = (json_node_data*)&node->data;
     json_verify(jdat, "readArray()", name, PJ_JSON_VAL_ARRAY);
@@ -442,7 +429,7 @@ static pj_str_t alloc_name(JsonDocument *doc, const string &name)
 static void jsonNode_writeNumber(ContainerNode *node,
            		         const string &name,
            		         float num)
-           		         throw(Error)
+           		         
 {
     json_node_data *jdat = (json_node_data*)&node->data;
     pj_json_elem *el = jdat->doc->allocElement();
@@ -454,7 +441,7 @@ static void jsonNode_writeNumber(ContainerNode *node,
 static void jsonNode_writeBool(ContainerNode *node,
            		       const string &name,
            		       bool value)
-			       throw(Error)
+			       
 {
     json_node_data *jdat = (json_node_data*)&node->data;
     pj_json_elem *el = jdat->doc->allocElement();
@@ -466,7 +453,7 @@ static void jsonNode_writeBool(ContainerNode *node,
 static void jsonNode_writeString(ContainerNode *node,
            		         const string &name,
            		         const string &value)
-				 throw(Error)
+				 
 {
     json_node_data *jdat = (json_node_data*)&node->data;
     pj_json_elem *el = jdat->doc->allocElement();
@@ -481,7 +468,7 @@ static void jsonNode_writeString(ContainerNode *node,
 static void jsonNode_writeStringVector(ContainerNode *node,
            		               const string &name,
            		               const StringVector &value)
-				       throw(Error)
+				       
 {
     json_node_data *jdat = (json_node_data*)&node->data;
     pj_json_elem *el = jdat->doc->allocElement();
@@ -502,7 +489,7 @@ static void jsonNode_writeStringVector(ContainerNode *node,
 
 static ContainerNode jsonNode_writeNewContainer(ContainerNode *node,
                      	                        const string &name)
-					        throw(Error)
+					        
 {
     json_node_data *jdat = (json_node_data*)&node->data;
     pj_json_elem *el = jdat->doc->allocElement();
@@ -523,7 +510,7 @@ static ContainerNode jsonNode_writeNewContainer(ContainerNode *node,
 
 static ContainerNode jsonNode_writeNewArray(ContainerNode *node,
                      	                    const string &name)
-					    throw(Error)
+					    
 {
     json_node_data *jdat = (json_node_data*)&node->data;
     pj_json_elem *el = jdat->doc->allocElement();

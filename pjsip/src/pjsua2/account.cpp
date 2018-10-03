@@ -84,7 +84,7 @@ pjmedia_rtcp_fb_setting RtcpFbConfig::toPj() const
     return setting;
 }
 
-void RtcpFbConfig::readObject(const ContainerNode &node) throw(Error)
+void RtcpFbConfig::readObject(const ContainerNode &node)
 {
     ContainerNode this_node = node.readContainer("RtcpFbConfig");
     NODE_READ_BOOL	(this_node, dontUseAvpf);
@@ -101,7 +101,7 @@ void RtcpFbConfig::readObject(const ContainerNode &node) throw(Error)
     }
 }
 
-void RtcpFbConfig::writeObject(ContainerNode &node) const throw(Error)
+void RtcpFbConfig::writeObject(ContainerNode &node) const
 {
     ContainerNode this_node = node.writeNewContainer("RtcpFbConfig");
     NODE_WRITE_BOOL	(this_node, dontUseAvpf);
@@ -179,7 +179,7 @@ pjsua_srtp_opt SrtpOpt::toPj() const
     return opt;
 }
 
-void SrtpOpt::readObject(const ContainerNode &node) throw(Error)
+void SrtpOpt::readObject(const ContainerNode &node)
 {
     ContainerNode this_node = node.readContainer("SrtpOpt");
 
@@ -202,7 +202,7 @@ void SrtpOpt::readObject(const ContainerNode &node) throw(Error)
     }
 }
 
-void SrtpOpt::writeObject(ContainerNode &node) const throw(Error)
+void SrtpOpt::writeObject(ContainerNode &node) const
 {
     ContainerNode this_node = node.writeNewContainer("SrtpOpt");
 
@@ -221,7 +221,7 @@ void SrtpOpt::writeObject(ContainerNode &node) const throw(Error)
 
 ///////////////////////////////////////////////////////////////////////////////
 
-void AccountRegConfig::readObject(const ContainerNode &node) throw(Error)
+void AccountRegConfig::readObject(const ContainerNode &node)
 {
     ContainerNode this_node = node.readContainer("AccountRegConfig");
 
@@ -240,7 +240,7 @@ void AccountRegConfig::readObject(const ContainerNode &node) throw(Error)
     readSipHeaders(this_node, "headers", headers);
 }
 
-void AccountRegConfig::writeObject(ContainerNode &node) const throw(Error)
+void AccountRegConfig::writeObject(ContainerNode &node) const
 {
     ContainerNode this_node = node.writeNewContainer("AccountRegConfig");
 
@@ -261,7 +261,7 @@ void AccountRegConfig::writeObject(ContainerNode &node) const throw(Error)
 
 ///////////////////////////////////////////////////////////////////////////////
 
-void AccountSipConfig::readObject(const ContainerNode &node) throw(Error)
+void AccountSipConfig::readObject(const ContainerNode &node)
 {
     ContainerNode this_node = node.readContainer("AccountSipConfig");
 
@@ -282,7 +282,7 @@ void AccountSipConfig::readObject(const ContainerNode &node) throw(Error)
     }
 }
 
-void AccountSipConfig::writeObject(ContainerNode &node) const throw(Error)
+void AccountSipConfig::writeObject(ContainerNode &node) const
 {
     ContainerNode this_node = node.writeNewContainer("AccountSipConfig");
 
@@ -302,7 +302,7 @@ void AccountSipConfig::writeObject(ContainerNode &node) const throw(Error)
 
 ///////////////////////////////////////////////////////////////////////////////
 
-void AccountCallConfig::readObject(const ContainerNode &node) throw(Error)
+void AccountCallConfig::readObject(const ContainerNode &node)
 {
     ContainerNode this_node = node.readContainer("AccountCallConfig");
 
@@ -313,7 +313,7 @@ void AccountCallConfig::readObject(const ContainerNode &node) throw(Error)
     NODE_READ_UNSIGNED( this_node, timerSessExpiresSec);
 }
 
-void AccountCallConfig::writeObject(ContainerNode &node) const throw(Error)
+void AccountCallConfig::writeObject(ContainerNode &node) const
 {
     ContainerNode this_node = node.writeNewContainer("AccountCallConfig");
 
@@ -326,7 +326,7 @@ void AccountCallConfig::writeObject(ContainerNode &node) const throw(Error)
 
 ///////////////////////////////////////////////////////////////////////////////
 
-void AccountPresConfig::readObject(const ContainerNode &node) throw(Error)
+void AccountPresConfig::readObject(const ContainerNode &node)
 {
     ContainerNode this_node = node.readContainer("AccountPresConfig");
 
@@ -338,7 +338,7 @@ void AccountPresConfig::readObject(const ContainerNode &node) throw(Error)
     readSipHeaders(this_node, "headers", headers);
 }
 
-void AccountPresConfig::writeObject(ContainerNode &node) const throw(Error)
+void AccountPresConfig::writeObject(ContainerNode &node) const
 {
     ContainerNode this_node = node.writeNewContainer("AccountPresConfig");
 
@@ -352,7 +352,7 @@ void AccountPresConfig::writeObject(ContainerNode &node) const throw(Error)
 
 ///////////////////////////////////////////////////////////////////////////////
 
-void AccountMwiConfig::readObject(const ContainerNode &node) throw(Error)
+void AccountMwiConfig::readObject(const ContainerNode &node)
 {
     ContainerNode this_node = node.readContainer("AccountMwiConfig");
 
@@ -360,7 +360,7 @@ void AccountMwiConfig::readObject(const ContainerNode &node) throw(Error)
     NODE_READ_UNSIGNED( this_node, expirationSec);
 }
 
-void AccountMwiConfig::writeObject(ContainerNode &node) const throw(Error)
+void AccountMwiConfig::writeObject(ContainerNode &node) const
 {
     ContainerNode this_node = node.writeNewContainer("AccountMwiConfig");
 
@@ -370,7 +370,7 @@ void AccountMwiConfig::writeObject(ContainerNode &node) const throw(Error)
 
 ///////////////////////////////////////////////////////////////////////////////
 
-void AccountNatConfig::readObject(const ContainerNode &node) throw(Error)
+void AccountNatConfig::readObject(const ContainerNode &node)
 {
     ContainerNode this_node = node.readContainer("AccountNatConfig");
 
@@ -402,7 +402,7 @@ void AccountNatConfig::readObject(const ContainerNode &node) throw(Error)
     NODE_READ_INT     ( this_node, contactUseSrcPort);
 }
 
-void AccountNatConfig::writeObject(ContainerNode &node) const throw(Error)
+void AccountNatConfig::writeObject(ContainerNode &node) const
 {
     ContainerNode this_node = node.writeNewContainer("AccountNatConfig");
 
@@ -436,7 +436,7 @@ void AccountNatConfig::writeObject(ContainerNode &node) const throw(Error)
 
 ///////////////////////////////////////////////////////////////////////////////
 
-void AccountMediaConfig::readObject(const ContainerNode &node) throw(Error)
+void AccountMediaConfig::readObject(const ContainerNode &node)
 {
     ContainerNode this_node = node.readContainer("AccountMediaConfig");
 
@@ -450,7 +450,7 @@ void AccountMediaConfig::readObject(const ContainerNode &node) throw(Error)
     NODE_READ_BOOL    ( this_node, rtcpMuxEnabled);
 }
 
-void AccountMediaConfig::writeObject(ContainerNode &node) const throw(Error)
+void AccountMediaConfig::writeObject(ContainerNode &node) const
 {
     ContainerNode this_node = node.writeNewContainer("AccountMediaConfig");
 
@@ -466,7 +466,7 @@ void AccountMediaConfig::writeObject(ContainerNode &node) const throw(Error)
 
 ///////////////////////////////////////////////////////////////////////////////
 
-void AccountVideoConfig::readObject(const ContainerNode &node) throw(Error)
+void AccountVideoConfig::readObject(const ContainerNode &node)
 {
     ContainerNode this_node = node.readContainer("AccountVideoConfig");
 
@@ -481,7 +481,7 @@ void AccountVideoConfig::readObject(const ContainerNode &node) throw(Error)
     NODE_READ_UNSIGNED( this_node, startKeyframeInterval);
 }
 
-void AccountVideoConfig::writeObject(ContainerNode &node) const throw(Error)
+void AccountVideoConfig::writeObject(ContainerNode &node) const
 {
     ContainerNode this_node = node.writeNewContainer("AccountVideoConfig");
 
@@ -497,7 +497,7 @@ void AccountVideoConfig::writeObject(ContainerNode &node) const throw(Error)
 }
 ///////////////////////////////////////////////////////////////////////////////
 
-void AccountIpChangeConfig::readObject(const ContainerNode &node) throw(Error)
+void AccountIpChangeConfig::readObject(const ContainerNode &node)
 {
     ContainerNode this_node = node.readContainer("AccountIpChangeConfig");
 
@@ -506,7 +506,7 @@ void AccountIpChangeConfig::readObject(const ContainerNode &node) throw(Error)
     NODE_READ_UNSIGNED( this_node, reinviteFlags);
 }
 
-void AccountIpChangeConfig::writeObject(ContainerNode &node) const throw(Error)
+void AccountIpChangeConfig::writeObject(ContainerNode &node) const
 {
     ContainerNode this_node = node.writeNewContainer("AccountIpChangeConfig");
 
@@ -847,7 +847,7 @@ void AccountConfig::fromPj(const pjsua_acc_config &prm,
     ipChangeConfig.reinviteFlags = prm.ip_change_cfg.reinvite_flags;
 }
 
-void AccountConfig::readObject(const ContainerNode &node) throw(Error)
+void AccountConfig::readObject(const ContainerNode &node)
 {
     ContainerNode this_node = node.readContainer("AccountConfig");
 
@@ -863,7 +863,7 @@ void AccountConfig::readObject(const ContainerNode &node) throw(Error)
     NODE_READ_OBJ     ( this_node, videoConfig);
 }
 
-void AccountConfig::writeObject(ContainerNode &node) const throw(Error)
+void AccountConfig::writeObject(ContainerNode &node) const
 {
     ContainerNode this_node = node.writeNewContainer("AccountConfig");
 
@@ -914,7 +914,7 @@ Account::~Account()
 }
 
 void Account::create(const AccountConfig &acc_cfg,
-                     bool make_default) throw(Error)
+                     bool make_default)
 {
     pjsua_acc_config pj_acc_cfg;
     
@@ -940,7 +940,7 @@ void Account::shutdown()
     }
 }
 
-void Account::modify(const AccountConfig &acc_cfg) throw(Error)
+void Account::modify(const AccountConfig &acc_cfg)
 {
     pjsua_acc_config pj_acc_cfg;
     
@@ -954,7 +954,7 @@ bool Account::isValid() const
     return pjsua_acc_is_valid(id) != 0;
 }
 
-void Account::setDefault() throw(Error)
+void Account::setDefault()
 {
     PJSUA2_CHECK_EXPR( pjsua_acc_set_default(id) );
 }
@@ -974,7 +974,7 @@ Account *Account::lookup(int acc_id)
     return (Account*)pjsua_acc_get_user_data(acc_id);
 }
 
-AccountInfo Account::getInfo() const throw(Error)
+AccountInfo Account::getInfo() const
 {
     pjsua_acc_info pj_ai;
     AccountInfo ai;
@@ -984,13 +984,13 @@ AccountInfo Account::getInfo() const throw(Error)
     return ai;
 }
 
-void Account::setRegistration(bool renew) throw(Error)
+void Account::setRegistration(bool renew)
 {
     PJSUA2_CHECK_EXPR( pjsua_acc_set_registration(id, renew) );
 }
 
 void
-Account::setOnlineStatus(const PresenceStatus &pres_st) throw(Error)
+Account::setOnlineStatus(const PresenceStatus &pres_st)
 {
     pjrpid_element pj_rpid;
 
@@ -1005,12 +1005,12 @@ Account::setOnlineStatus(const PresenceStatus &pres_st) throw(Error)
 			    &pj_rpid) );
 }
 
-void Account::setTransport(TransportId tp_id) throw(Error)
+void Account::setTransport(TransportId tp_id)
 {
     PJSUA2_CHECK_EXPR( pjsua_acc_set_transport(id, tp_id) );
 }
 
-void Account::presNotify(const PresNotifyParam &prm) throw(Error)
+void Account::presNotify(const PresNotifyParam &prm)
 {
     pj_str_t pj_state_str   = str2Pj(prm.stateStr);
     pj_str_t pj_reason	    = str2Pj(prm.reason);
@@ -1023,7 +1023,7 @@ void Account::presNotify(const PresNotifyParam &prm) throw(Error)
 					 &msg_data) );
 }
 
-const BuddyVector& Account::enumBuddies() const throw(Error)
+const BuddyVector& Account::enumBuddies() const
 {
     return buddyList;
 }
